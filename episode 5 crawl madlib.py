@@ -51,16 +51,28 @@ blank21 = input("Adjective : ")
 blank22 = input("Plural Noun : ")
 blank23 = input("Noun : ")
 
-print("It is a", blank1, "time for the", blank2, ".\n",
-      "Although the", blank3, blank4, "has been destroyed,\n",
-      "Imperial", blank5, "have driven the", blank6, "forces\n",
-      "from their", blank7, "base and pursued them across the", blank8, ".\n",
-      blank9, "the dreaded Imperial", blank10, ",\n",
-      "a group of", blank11, blank12, "led by", blank13, "\n",
-      "has established a new secret", blank14, "on the remote", blank15, "\n",
-      "world of", blank16, ".\n"
-      "The", blank17, "lord Darth", blank18, ",\n",
-      "obsessed with", blank19, "young", blank20, ",\n",
-      "has dispatched thousands of", blank21, blank22, "\n",
-      "into the far reaches of", blank23, ". . .")
-#execute order sixty-six
+print(str.format("\nIt is a {0} time for the {1} .\n", blank1, blank2))
+print(str.format("Although the {0} {1} has been destroyed,\n", blank3, blank4))
+print(str.format("Imperial {0} have driven the {1} forces\n", blank5, blank6))
+print(str.format("from their {0} base and pursued them across the {1}.\n", blank7, blank8))
+print(str.format("{0} the dreaded Imperial {1},\n", blank9, blank10))
+print(str.format("a group of {0} {1} led by {2} \n", blank11, blank12, blank13))
+print(str.format("has established a new secret {0} on the remote {1} \n", blank14, blank15))
+print(str.format("world of {0}.\n", blank16))
+print(str.format("The {0} Lord Darth {1},\n", blank17,blank18))
+print(str.format("obsessed with {0} young {1},\n", blank19, blank20))
+print(str.format("has dispatched thousands of {0} {1}\n",blank21, blank22))
+print(str.format("into the far reaches of {0}. . .", blank23))
+
+      #print("It is a", blank1, "time for the", blank2, ".\n",
+      #"Although the", blank3, blank4, "has been destroyed,\n",
+     # "Imperial", blank5, "have driven the", blank6, "forces\n",
+    #  "from their", blank7, "base and pursued them across the", blank8, ".\n",
+     # blank9, "the dreaded Imperial", blank10, ",\n",
+     # "a group of", blank11, blank12, "led by", blank13, "\n",
+     # "has established a new secret", blank14, "on the remote", blank15, "\n",
+     # "world of", blank16, ".\n"
+      #"The", blank17, "lord Darth", blank18, ",\n",
+      #"obsessed with", blank19, "young", blank20, ",\n",
+    #  "has dispatched thousands of", blank21, blank22, "\n",
+     # "into the far reaches of", blank23, ". . .")
