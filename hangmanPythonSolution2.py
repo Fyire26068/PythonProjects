@@ -167,8 +167,9 @@ while hangmanDisplay != hangman[6]: #logic for guess
         print("Invalid Response")
     if '-' not in wordDisplay: #checking for win
         print(hangmanDisplay)
-        print("You won, the word was : " + word)
+        print("\nYou won, the word was : " + word + "\n")
         break
 if hangmanDisplay == hangman[6]: #making sure its a loss
     print(hangmanDisplay)
-    print("You lost, the word was : " + word)
+    print("\nYou lost, the word was : " + word + "\n")
+input()
