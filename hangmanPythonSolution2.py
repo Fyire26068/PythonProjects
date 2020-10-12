@@ -111,6 +111,24 @@ ____________________||___''',
       ||            ||
      _||_           ||
       /}\           ||
+     (o_o)          ||
+    //| |\\\\         ||
+   // | | \\\\        ||
+     // \\\\          ||
+    //   \\\\         ||
+                    ||
+                    ||
+                    ||
+                    ||
+                    ||
+____________________||___''',
+           '''
+
+      _________________
+      ||            ||
+      ||            ||
+     _||_           ||
+      /}\           ||
      (#_#)          ||
     //| |\\\\         ||
    // | | \\\\        ||
@@ -139,7 +157,7 @@ startingPos = 0
 letterBank = list('-' * 26)
 bankPos = 0
 
-while hangmanDisplay != hangman[6]: #logic for guess
+while hangmanDisplay != hangman[7]: #logic for guess
     charPos = -1#resetting character position
     
     print(hangmanDisplay)#printing screen
@@ -162,14 +180,14 @@ while hangmanDisplay != hangman[6]: #logic for guess
                 wrong = wrong +1
                 hangmanDisplay = hangman[wrong]
         else: #if they already guessed the letter
-            print("You already guessed that letter")
+            print("\n-------------------------------\nYou already guessed that letter\n-------------------------------\n")
     else: #if its an invalid response
-        print("Invalid Response")
+        print("\n----------------\nInvalid Response\n----------------\n")
     if '-' not in wordDisplay: #checking for win
         print(hangmanDisplay)
         print("\nYou won, the word was : " + word + "\n")
         break
-if hangmanDisplay == hangman[6]: #making sure its a loss
+if hangmanDisplay == hangman[7]: #making sure its a loss
     print(hangmanDisplay)
     print("\nYou lost, the word was : " + word + "\n")
 input()
