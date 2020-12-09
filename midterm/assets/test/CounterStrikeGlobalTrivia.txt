@@ -1,5 +1,5 @@
 CSGO to the Trivia / Administered by Anthony Garrard
-What are Gun Prices?
+Weapon Stats
 In the game Counter Strike : Global Offensive, the sidearm named the "Desert Eagle" costs how much money?
 $700
 $1200
@@ -7,7 +7,7 @@ $300
 $400
 1
 The Deagle is the most expensive sidearm, you are able to buy it /first round sacrificing utility and|or armor for its price.
-What are Gun Stats?
+Weapon Stats
 How many guns can one shot headshot with helmet in CSGO?
 14
 7
@@ -15,7 +15,7 @@ How many guns can one shot headshot with helmet in CSGO?
 4
 1
 The Ak-47, AUG, R8 Revolver, Desert Eagle, AWP, SSG-08, AUG, SG-553, G3GS1, SCAR-20, and all 4 shotguns at close range
-What is the game?
+MetaGame
 How many players are on each team in competitive CSGO?
 5
 2
@@ -23,7 +23,7 @@ How many players are on each team in competitive CSGO?
 8
 1
 Each team is comprised of 5 members in competitive CSGO
-What are player roles?
+Player Roles
 Which weapon has a player role named after it?
 AWP
 Ak-47
@@ -31,7 +31,7 @@ Desert Eagle
 USP-S
 1
 The AWPer is a desginated role in CSGO for the primary user of the one shot sniper rifle
-What are maps?
+Maps
 Which of the following is not in the Active Duty maps of competitive CSGO?
 Safehouse
 Dust 2
@@ -39,7 +39,7 @@ Inferno
 Mirage
 1
 Safehouse is a war game map, not a map for traditional CSGO
-What is game history?
+Operations
 The most recent CSGO operation is named what?
 Broken Fang
 Hydra
@@ -47,7 +47,7 @@ Wildfire
 Bravo
 1
 Operation Broken Fang released December 2020
-What are weapon stats?
+Weapon Stats
 How many bullets does the M4A1-S have inside its magazine?
 25
 30
@@ -55,7 +55,7 @@ How many bullets does the M4A1-S have inside its magazine?
 8
 1
 There are 25 bullets in the M4's magazine
-What is professional esports?
+Professional Teams
 KennyS is a AWPer for which professional ESports team?
 G2
 Astralis
@@ -63,7 +63,6 @@ Fnatic
 NaVi
 1
 He is the primary AWPer for G2's french international CSGO team
-What is the game?
 Which of the following SMG's is only available on the Terrorist side of CSGO?
 Mac-10
 UMP-45
@@ -71,15 +70,12 @@ MP7
 MP5-SD
 1
 The Mac-10 is a T sided weapon only
-What is economy?
 How much money does each player start with pistol round?
 $800
 $1000
 $2700
 $500
-1
 You start with $800 each pistol round
-What is famous plays?
 What map did the imfamous Olaf boost happen on?
 Overpass
 Dust 2
@@ -87,7 +83,6 @@ Inferno
 Lunacy
 1
 The boost happened at CT-spawn on Overpass
-What is professional esports?
 Who is the highest rated player on the NaVi Roster?
 S1mple
 dev1ce
@@ -95,7 +90,6 @@ flamie
 Boombl4
 1
 S1mple is the currently the highest rated on NaVi's team and the entirety of CS
-What are maps?
 What map is the only map to have chickens roaming around the entire map?
 Inferno
 Dust 2
@@ -103,7 +97,6 @@ Mirage
 Vertigo
 1
 Inferno is the only map in competitive CSGO where chicken entities get spawned
-What are maps?
 What is the most played map of all time in CSGO?
 Mirage
 Inferno
@@ -111,15 +104,12 @@ Vertigo
 Cobblestone
 1
 Mirage has been played more than anymap, including Dust 2
-What are weapon prices?
 How much does the AK-47 cost?
 $2700
 $3000
 $1100
 $2900
-1
 The Ak costs $2700 and is only available for purchase on the T-Side
-What is weapon stats?
 What gun has the highest potential skill cap in the game?
 Desert Eagle
 SSG-08
@@ -127,7 +117,6 @@ AWP
 Ak-47
 1
 The Desert Eagle is the only sidearm with the ability to one shot at long range
-What is the game?
 How many kills gives a player an Ace?
 5
 4
@@ -135,7 +124,6 @@ How many kills gives a player an Ace?
 1
 1
 Killing all five of the enemy team is called an Ace
-What is the game?
 What is it called when you win a round as the last man standing?
 A Clutch
 A Carry
@@ -143,7 +131,6 @@ A Throw
 A Try
 1
 When you win the round as the last man staning you, clutched the round
-What is the game?
 What is the most common name for the SSG-08?
 The Scout
 The Sniper Rifle
@@ -151,7 +138,6 @@ The Headshot Rifle
 The NoScope 
 1
 The SSG-08 is most commonly referred to as the scout
-What is the game?
 How many rounds to win in competitive CSGO?
 16
 15
@@ -159,3 +145,4 @@ How many rounds to win in competitive CSGO?
 10
 1
 To win one side must reach 16 round wins across the T and CT sides
+
