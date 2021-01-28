@@ -34,6 +34,10 @@ class App(Frame):
         self.username = self.userText.get()
         self.password = self.passText.get()
 
+    def update(self):
+        self.output.delete(0.0, END)
+        self.output.insert(0.0, self.userText)
+
 
 
 
