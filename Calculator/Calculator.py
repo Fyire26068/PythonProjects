@@ -10,9 +10,13 @@ class App(Frame):
     def createWidgets(self):
         self.displayText = "0"
         self.value1 = DoubleVar
+        self.value1 = "None"
         self.value2 = DoubleVar
+        self.value2 = "None"
         self.operator = StringVar
         self.result = DoubleVar
+        self.answer = BooleanVar
+        self.answer = False
 
         self.display = Label(self, text="0", font=("Courier", 44))
         self.display.grid(column=0, row=0, columnspan=4, sticky=E)
@@ -62,10 +66,10 @@ class App(Frame):
         self.zero = Button(self, text="0", font=("Courier", 44), command=self.numberZero)
         self.zero.grid(column=1, row=4, sticky=E)
 
-        self.clear = Button(self, text="C", font=("Courier", 44))
+        self.clear = Button(self, text="C", font=("Courier", 44), command=self.clear)
         self.clear.grid(column=0, row=4, sticky=E)
 
-        self.equal = Button(self, text="=", font=("Courier", 44))
+        self.equal = Button(self, text="=", font=("Courier", 44), command=self.equals)
         self.equal.grid(column=2, row=4, sticky=E)
 
 
@@ -75,146 +79,172 @@ class App(Frame):
     # NUMBER commands
 
     def numberOne(self):
-        if self.displayText == "0":
-            self.displayText = "1"
+        if self.answer == True:
+            self.display["text"] = "0"
+        if self.display["text"] == "0":
+            self.display["text"] = "1"
         else:
-            self.displayText += "1"
-        self.display["text"] = self.displayText
+            self.display["text"] += "1"
 
     def numberTwo(self):
-        if self.displayText == "0":
-            self.displayText = "2"
+        if self.answer == True:
+            self.display["text"] = "0"
+        if self.display["text"] == "0":
+            self.display["text"] = "2"
         else:
-            self.displayText += "2"
-        self.display["text"] = self.displayText
+            self.display["text"] += "2"
 
     def numberThree(self):
-        if self.displayText == "0":
-            self.displayText = "3"
+        if self.answer == True:
+            self.display["text"] = "0"
+        if self.display["text"] == "0":
+            self.display["text"] = "3"
         else:
-            self.displayText += "3"
-        self.display["text"] = self.displayText
+            self.display["text"] += "3"
 
     def numberFour(self):
-        if self.displayText == "0":
-            self.displayText = "4"
+        if self.answer == True:
+            self.display["text"] = "0"
+        if self.display["text"] == "0":
+            self.display["text"] = "4"
         else:
-            self.displayText += "4"
-        self.display["text"] = self.displayText
+            self.display["text"] += "4"
 
     def numberFive(self):
-        if self.displayText == "0":
-            self.displayText = "5"
+        if self.answer == True:
+            self.display["text"] = "0"
+        if self.display["text"] == "0":
+            self.display["text"] = "5"
         else:
-            self.displayText += "5"
-        self.display["text"] = self.displayText
+            self.display["text"] += "5"
 
     def numberSix(self):
-        if self.displayText == "0":
-            self.displayText = "6"
+        if self.answer == True:
+            self.display["text"] = "0"
+        if self.display["text"] == "0":
+            self.display["text"] = "6"
         else:
-            self.displayText += "6"
-        self.display["text"] = self.displayText
+            self.display["text"] += "6"
 
     def numberSeven(self):
-        if self.displayText == "0":
-            self.displayText = "7"
+        if self.answer == True:
+            self.display["text"] = "0"
+        if self.display["text"] == "0":
+            self.display["text"] = "7"
         else:
-            self.displayText += "7"
-        self.display["text"] = self.displayText
+            self.display["text"] += "7"
 
     def numberEight(self):
-        if self.displayText == "0":
-            self.displayText = "8"
+        if self.answer == True:
+            self.display["text"] = "0"
+        if self.display["text"] == "0":
+            self.display["text"] = "8"
         else:
-            self.displayText += "8"
-        self.display["text"] = self.displayText
+            self.display["text"] += "8"
 
     def numberNine(self):
-        if self.displayText == "0":
-            self.displayText = "9"
+        if self.answer == True:
+            self.display["text"] = "0"
+        if self.display["text"] == "0":
+            self.display["text"] = "9"
         else:
-            self.displayText += "9"
-        self.display["text"]=self.displayText
-
+            self.display["text"] += "9"
 
     def numberZero(self):
-        if self.displayText == "0":
-            self.displayText = "0"
+        if self.answer == True:
+            self.display["text"] = "0"
+        if self.display["text"] == "0":
+            self.display["text"] = "0"
         else:
-            self.displayText += "0"
-        self.display["text"] = self.displayText
-
+            self.display["text"] += "0"
 
     # Operator Commands
-
     def add(self):
-
         self.operator = '+'
-        if not self.value1:
-            self.value1 = float(self.displayText)
+        if self.value1 == "None" or self.answer == True:
+            self.value1 = getdouble(self.display["text"])
+            self.resetScreen()
         else:
-            self.value2 = float(self.displayText)
-
+            self.value2 = getdouble(self.display["text"])
             self.result = self.value1 + self.value2
-            self.display.config(text=str(self.result))
+            self.display["text"] = self.result
             self.update()
+            self.answer = True
 
     def subtract(self):
         self.operator = '-'
-        if self.value1 == 0:
-            self.value1 = float(self.displayText)
+        if self.value1 == "None" or self.answer == True:
+            self.value1 = getdouble(self.display["text"])
+            self.resetScreen()
         else:
-            self.value2 = float(self.displayText)
-
+            self.value2 = getdouble(self.display["text"])
             self.result = self.value1 - self.value2
+            self.display["text"] = self.result
             self.update()
+            self.answer = True
 
     def multiply(self):
         self.operator = '*'
-        if self.value1 == 0:
-            self.value1 = float(self.displayText)
+        if self.value1 == "None" or self.answer == True:
+            self.value1 = getdouble(self.display["text"])
+            self.resetScreen()
         else:
-            self.value2 = float(self.displayText)
-
+            self.value2 = getdouble(self.display["text"])
             self.result = self.value1 * self.value2
+            self.display["text"] = self.result
             self.update()
+            self.answer = True
 
     def divide(self):
         self.operator = '/'
         if self.value1 == None:
-            self.value1 = float(self.displayText)
+            self.value1 = getdouble(self.display["Text"])
         else:
-            self.value2 = float(self.displayText)
-
-            self.result = self.value1 / self.value2
-            self.update
+            if self.value1 == "None" or self.answer == True:
+                self.value1 = getdouble(self.display["text"])
+                self.resetScreen()
+            else:
+                self.value2 = getdouble(self.display["text"])
+                self.result = self.value1 / self.value2
+                self.display["text"] = self.result
+                self.update()
+                self.answer = True
 
     def equals(self):
-        if self.value1 == None:
-            self.value1 = float(self.displayText)
+        if self.value1 == "None":
+            self.value1 = getdouble(self.display["text"])
         else:
-            self.value2 = float(self.displayText)
+            self.value2 = getdouble(self.display["text"])
+            print("value 2 set")
+            print(self.value2)
+            print(self.operator)
             if self.operator == "+":
                 self.result = self.value1 + self.value2
-
             elif self.operator == "-":
                 self.result = self.value1 - self.value2
             elif self.operator == "*":
                 self.result = self.value1 * self.value2
             elif self.operator == "/":
                 self.result = self.value1 / self.value2
-            self.operator = None
+            self.operator = "None"
             self.value1 = self.result
-            self.update
+            self.update()
+            self.answer = True
 
+    def resetScreen(self):
+        self.display["text"] = "0"
 
-
+    def clear(self):
+        self.resetScreen()
+        self.value1 = "None"
+        self.value2 = "None"
+        self.operator = "None"
 
 
     def update(self):
-        self.displayText = self.result
-        self.display = self.displayText
+        self.display["text"] = self.result
+        self.result = self.value1
+
 
 
 def main():
