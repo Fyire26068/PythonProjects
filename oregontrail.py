@@ -174,6 +174,7 @@ def play():
     """Player chooses class, names of party, and game starts"""
     START_DATE = datetime.datetime(1300,3,1)
     current_date = START_DATE
+    
     horseHp = 100
     totalMiles = 2000
     milesTraveled = 0
@@ -182,11 +183,12 @@ def play():
     arrows = 0
     clothes = 0
     parts = []
+    
 
     horses = 0
     party = []
     weather = "good"
-    health = 100
+    hp = 100
     rations = "full"
     pace = "normal"
 
@@ -195,8 +197,8 @@ def play():
     party = nameSetup()
     money = moneySetup(pClass)
     money, food, arrows, clothes, parts, horses = shop(money, food, arrows, clothes, parts, horses, len(party))
-    while len(party) > 0 and milesTraveled > 0:
-        turn(hp, food, totalMiles)
+    while len(party) > 0 and milesTraveled < 2170:
+        hp, money, food, arrows, clothes, parts, horses, totalMiles, pace = turn(hp, money, food, arrows, clothes, parts, horses, totalMiles,pace)
     if totalMiles <= 0:
         slowText("Congrats, you made it to the land of your desire!")
     else:
@@ -208,9 +210,8 @@ def startMonth():
 def shop(money, food, arrows, clothes, parts, horses, partySize):
     bill = 0
     inventory = []
-    items = ["Horses", "Food", "Clothes", "Arrows", "Carriage Parts", "Check Out"]
+    items = ["Horses", "Food", "Clothes", "Arrows", "Cart Parts", "Check Out"]
     spentOnItems = [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, bill]
-    slowText("Before leaving CITYNAMEHERE you should buy some supplies for your journey.")
     slowText(str.format("You have {} gold pieces to spend on supplies.", money))
     slowText("Remember, you can buy supplies along the way.")
     slowText("Press Enter to Continue")
@@ -221,9 +222,9 @@ def shop(money, food, arrows, clothes, parts, horses, partySize):
         spentOnItems[len(spentOnItems)-1] = bill
         print()
         for i in range(len(items)-1):
-            print(str.format("{}.        {:20}   {:.2f} Gold", i+1, items[i], spentOnItems[i]))
-        print("6. Exit Shop")
-        slowText(str.format("Total Bill so far:        {:.2f} Gold", bill), 0.02, 0)
+            slowText(str.format("{}.        {:20}   {:.2f} Gold", i+1, items[i], spentOnItems[i]), 0.02, 0)
+        slowText("6.        Checkout")
+        slowText(str.format("Total Bill so far:        {:.2f} Gold", bill), 0.02)
         slowText(str.format("Total funds available:    {:.2f} Gold", money-bill), 0.02)
         choice = getNumber("What would you like to buy?", 7, 1)
         if choice == 1:
@@ -270,43 +271,53 @@ def shop(money, food, arrows, clothes, parts, horses, partySize):
             bill += cost
             spentOnItems[3] = cost
         elif choice == 5:
-                bill -= spentOnItems[4]
-                partsBill = 0
-                #parts[0] = 0
-                #parts[1] = 0
-                #parts[2] = 0
-                spentOnItems[4] = 0.00
-                slowText("It's a good idea to have a few spare parts for your carriage.")
-                parts = ["carriage wheel", "carriage axle", "horse lead"]
-                partsCost = [10, 10, 10, partsBill]
-                while True:
-                    partsCost[len(partsCost)-1] = partsBill
-                    slowText("Here is a list of cart parts you can purchase :")
-                    for i in range(len(parts)):
-                        print(str.format("{}.    {:20}       {:.2f} gold", i+1, parts[i], partsCost[i]))
-                    print("4.    Continue to Shop")
-                    item = getNumber("what Item would you like to buy?", 5, 1)
-                    if item == 1:
-                        answer = getNumber("How many carrige wheels do you want?", 4, 0)
-                        for i in range(answer):
-                            inventory.append("Carriage Wheel")
-                        partsBill += partsCost[0]*answer
-                    elif item == 2:
-                        answer = getNumber("How many carrige axels do you want?", 4, 0)
-                        for i in range(answer):
-                            inventory.append("Carrige Axle")
-                        partsBill += partsCost[1]*answer
-                    elif item == 3:
-                        answer = getNumber("How many horse leads do you want?", 10, 0)
-                        for i in range(answer) :
-                            inventory.append("Horse Lead")
-                        partsBill += partsCost[2]*answer
-                    elif item == 4:
-                        bill += partsBill
-                        spentOnItems[4] = partsBill
-                        break
-
-
+            bill -= spentOnItems[4]
+            partsBill = 0
+            parts[0] = 0
+            parts[1] = 0
+            parts[2] = 0
+            spentOnItems[4] = 0.00
+            slowText("""It's a good idea to have a few spare parts for your carriage.
+            """)
+            partsList = ["carriage wheel", "carriage axle", "horse lead"]
+            partsCost = [0, 0, 0, partsBill]
+            while True:
+                partsCost[len(partsCost)-1] = partsBill
+                slowText("Here is a list of cart parts you can purchase :")
+                for i in range(len(partsList)):
+                    slowText(str.format("{}.    {:20}       {:.2f} gold", i+1, partsList[i], partsCost[i]))
+                slowText("4.    Continue to Shop")
+                print(str.format("Parts Bill so far:        {:.2f} gold", partsBill))
+                slowText(str.format("Total funds available: {:.2f} gold", money-bill))
+                item = getNumber("what Item would you like to buy?", 5, 1)
+                if item == 1:
+                    partsBill -= partsCost[0]
+                    partsCost[0] = 0
+                    answer = getNumber("How many carrige wheels do you want?", 4, 0)
+                    for i in range(answer):
+                        inventory.append("Cart Wheel")
+                    partsCost[0] = 10*answer
+                    partsBill += partsCost[0]
+                elif item == 2:
+                    partsBill -= partsCost[1]
+                    partsCost[1] = 0
+                    answer = getNumber("How many carrige axels do you want?", 4, 0)
+                    for i in range(answer):
+                        inventory.append("Carrige Axle")
+                    partsCost[1] = 10*answer
+                    partsBill += partsCost[1]
+                elif item == 3:
+                    partsBill -= partsCost[2]
+                    partsCost[2] = 0
+                    answer = getNumber("I charge 1 gold for each horse lead. How many horse Leads did you want?", 10, 0)
+                    for i in range(answer):
+                        inventory.append("Horse Lead")
+                    partsCost[2] = answer
+                    partsBill += partsCost[2]
+                elif item == 4:
+                    bill += partsBill
+                    spentOnItems[4] = partsBill
+                    
         elif choice == 6:
             if bill <= money:
                 money -= bill
@@ -319,14 +330,14 @@ def shop(money, food, arrows, clothes, parts, horses, partySize):
             input()
 
         input()
-def travel(weather, pace, health):
+def travel(weather, pace, hp):
     hours = 0
     mph = 0
     weatherMod = 0
-    #health
-    if health >= 80:
+    #hp
+    if hp >= 80:
         hours = 8
-    elif health<80 and health >=55:
+    elif hp<80 and hp >=55:
         hours = 4
     else:
         hours = 2
@@ -339,16 +350,16 @@ def travel(weather, pace, health):
         mph = 8
     #weather:
     if weather == good:
-        weatherMod = 1
+        weatherMod = 1.25
     elif weather == rain:
         weatherMod = 0.5
     else:
-        weatherMod = 0
+        weatherMod = 1
     miles = hours*mph*weatherMod
     return miles
 
 
-def supplies():
+def supplies(money, food, clothes, horses, arrows):
     slowText(str.fromat("You have:\n {} gold",money))
     slowText(str.fromat("{} rations of food",food))
     slowText(str.fromat("{} pairs of clothes",clothes))
@@ -356,7 +367,7 @@ def supplies():
     slowText(str.fromat("{} arrows",arrows))
 
 
-def pace(pace):
+def pace(pace="normal"):
     pacer = getNumber("Pace (1 = normal, 2 = fast, 3 = slow): ", 3, 1)
     if pacer == 1:
         pace = "normal"
@@ -410,25 +421,25 @@ def rations(food):
 
 
 def rest(hp):
-    healthMod = 0.0
+    hpMod = 0.0
     restDays = getNumber("How many days do you want to rest? ", 10, 1)
     if rations == "full":
-        healthMod = 2
+        hpMod = 2
     elif rations == "half":
-        healthMod = 1
+        hpMod = 1
     else:
-        healthMod = 0.5
-    healthGain = 10*restDays*healthMod
-    if healthGain+hp >= 100:
+        hpMod = 0.5
+    hpGain = 10*restDays*hpMod
+    if hpGain+hp >= 100:
         hp = 100
     else:
-        hp += healthGain
+        hp += hpGain
     return hp
 
 
 
-def turn(hp, food, totalMiles):
-    weather = random.choice(["hot", "good", "fair", "poor", "windy", "rain", "blizzard"])
+def turn(hp, money, food, arrows, clothes, parts, horses, totalMiles,pace):
+    weather = random.choice(["hot", "good", "good", "good", "fair", "fair", "fair", "fair", "fair", "poor", "windy", "windy", "rain", "rain", "rain", "blizzard"])
     mainChoice = getNumber("Would you like to \n(1) Rest \n(2) Hunt \n(3) Set Pace \n(4) Check Supplies \n(5) Continue Travel \n(6) Set Rations", 6,1)
 
     if mainChoice == 1:
@@ -436,20 +447,20 @@ def turn(hp, food, totalMiles):
     elif mainChoice == 2:
         food += hunt()
     elif mainChoice == 3:
-        pace = pace(pace)
+        pace = pace()
     elif mainChoice == 4:
-        checkSupplies()
+        checkSupplies(money, food, clothes, horses, arrows)
     elif mainChoice == 5:
         totalMiles = travel(weather, pace, hp)
     elif mainChoice == 6:
         rations = rations(food)
 
     if hp >= 80:
-        healthCondition = "good"
+        hpCondition = "good"
     elif hp < 80 and hp >= 50:
-        healthCondition = "fair"
+        hpCondition = "fair"
     else:
-        healthCondtition = "poor"
+        hpCondtition = "poor"
 
 
 
@@ -478,6 +489,8 @@ def turn(hp, food, totalMiles):
         food += 50
         slowText("""One of your horses died. You now have more food.
 Don't worry, you're not a horrible person if you eat a horse.""")
+    return hp, money, food, arrows, clothes, parts, horses, totalMiles, pace
+        
 
 #Universal Variables
 money = 0

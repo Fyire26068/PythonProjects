@@ -97,13 +97,69 @@ def displayBoard(board):
     print("\t","---------")
     print("\t",board[6],"|",board[7],"|",board[8])
 
+def legalMove(board):
+    moves = []
+    for i in range(len(board)):
+        if board[i] == " ":
+            moves.append(i)
+    return moves
+
 def humanMove(board, human) :
     """Get human move. to use (move = humanMove(board, human))"""
+    legal = legalMove(board)
     move = None
-    while move == None:
+    while move not in legal:
         move = getNumber("Where would you like to make your move? (0-8)", 0, NUMSQUARES)
+        if move not in legal:
+            print("\nThat square is already occupied, foolish human. Choose another.\n")
+    print("Fine. . .")
     return move
-    
+
+
+def computerMove(board, computer, human):
+    """make the computer move"""
+    #copying board
+    cboard = board[:]
+    #best positions to have
+    BESTMOVES = (4,0,2,6,8,1,3,5,7)
+    print("I shall take square number", end =" ")
+    #if cpu can win, take that move
+    for move in legalMove(cboard):
+        cboard[move] = computer
+        if winner(cboard) == computer:
+            print(move)
+            return move
+        cboard[move] = EMPTY
+   #if human can win, block that move
+    for move in legalMove(cboard):
+        cboard[move] = human
+        if winner(cboard) == human:
+            print(move)
+            return move
+        cboard[move] = EMPTY
+   #if no one can win, next bestmove
+    for move in BESTMOVES:
+        if move in legalMove(board):
+            print(move)
+            return move
+
+def winner(board):
+    """Determine the game winner."""
+    WAYSTOWIN = ((0, 1, 2),
+                 (3, 4, 5),
+                 (6, 7, 8),
+                 (0, 4, 8),
+                 (2, 4, 6),
+                 (0, 3, 6),
+                 (2, 5, 8),
+                 (1, 4, 7))
+    for row in WAYSTOWIN:
+        if board[row[0]] == board[row[1]] == board[row[2]] != EMPTY:
+            winner = board[row[0]]
+            return winner
+    if EMPTY not in board:
+        return TIE
+
 
 #main game
 ##########
@@ -111,15 +167,21 @@ def main():
     displayInstruct()
     turn = X
     computer, human = pieces()
-    
     board = newBoard()
     
-    while True:
+    while not winner(board):
+        if turn == human:
+            move = humanMove(board, human)
+            board[move] = human
+        else:
+            move = computerMove(board, computer, human)
+            board[move] = computer
         displayBoard(board)
-        
-        move = humanMove(board, human)
-        board[move] = human
         turn = nextTurn(turn)
+    print(winner(board))
+
+
+        
     
 
 
