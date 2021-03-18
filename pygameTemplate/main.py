@@ -15,6 +15,8 @@ snd_folder = os.path.join(game_folder,"snds")
 WIDTH = 640
 HEIGTH = 480
 FPS = 60
+title = "template"
+
 
 
 
