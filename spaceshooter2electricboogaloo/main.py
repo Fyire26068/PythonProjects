@@ -35,6 +35,8 @@ class Player(pg.sprite.Sprite):
         self.lives = 3
         self.hide_timer = pg.time.get_ticks()
         self.hidden = False
+        self.power = 1
+        self.power_time = pg.time.get_ticks()
 
     def hide(self):
         # hide the player temporarily
@@ -42,6 +44,28 @@ class Player(pg.sprite.Sprite):
         self.hide_timer = pg.time.get_ticks()
         self.rect.center = (WIDTH/2, HEIGHT+200)
 
+    def powerup(self):
+        self.power += 1
+        self.power_time = pg.time.get_ticks()
+        powerup_snd.play()
+
+    def shoot(self):
+        now = pg.time.get_ticks()
+        if now - self.last_shot > self.shoot_delay:
+            self.last_shot = now
+            if self.power == 1:
+                bullet = Bullet(self.rect.centerx, self.rect.top)
+                all_sprites.add(bullet)
+                bullet_group.add(bullet)
+                shoot_snd.play()
+            if self.power >= 2:
+                bullet1 = Bullet(self.rect.left, self.rect.centery)
+                bullet2 = Bullet(self.rect.right, self.rect.centery)
+                all_sprites.add(bullet1)
+                all_sprites.add(bullet2)
+                bullet_group.add(bullet1)
+                bullet_group.add(bullet2)
+                shoot_snd.play()
 
     def update(self):
         self.speedx = 0
@@ -63,14 +87,13 @@ class Player(pg.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
-    def shoot(self):
-        now = pg.time.get_ticks()
-        if now - self.last_shot > self.shoot_delay:
-            self.last_shot = pg.time.get_ticks()
-            bullet = Bullet(self.rect.centerx, self.rect.top)
-            all_sprites.add(bullet)
-            bullet_group.add(bullet)
-            shoot_snd.play()
+        # timeout for powerups
+        if self.power >= 2 and pg.time.get_ticks() - self.power_time > POWERUP_TIME:
+            self.power -= 1
+            self.power_time = pg.time.get_ticks()
+            powerdown_snd.play()
+
+
 
 
 class NPC(pg.sprite.Sprite):
@@ -247,6 +270,22 @@ def draw_lives(surf, x, y, lives, img):
         img_rect.y = y
         surf.blit(img, img_rect)
 
+def show_go_screen():
+    screen.blit(background, background_rect)
+    draw_text(screen, "SHMUP!", 64, WIDTH / 2, HEIGHT / 4, WHITE)
+    draw_text(screen, "Arrow keys move, Space to fire", 22,
+              WIDTH / 2, HEIGHT / 2, RED)
+    draw_text(screen, "Press a key to begin", 18, WIDTH / 2, HEIGHT * 3 / 4, BLUE)
+    pg.display.flip()
+    waiting = True
+    while waiting:
+        clock.tick(FPS)
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+            if event.type == pg.KEYUP:
+                waiting = False
+
 ####################################################################
 
 # Game Constants
@@ -254,6 +293,7 @@ def draw_lives(surf, x, y, lives, img):
 HEIGHT = 900
 WIDTH = 600
 FPS = 60
+POWERUP_TIME = 5000
 
 # Colors (R,G,B)
 BLACK = (0, 0, 0)
@@ -341,7 +381,9 @@ shoot_snd = pg.mixer.Sound(path.join(base_snds_folder,"pew.wav"))
 expl_sounds = []
 for snd in ['expl3.wav', 'expl6.wav']:
     expl_sounds.append(pg.mixer.Sound(path.join(base_snds_folder, snd)))
-
+shield_snd = pg.mixer.Sound(path.join(base_snds_folder, "shield_snd.ogg"))
+powerup_snd = pg.mixer.Sound(path.join(base_snds_folder, "gun_powerup.ogg"))
+powerdown_snd = pg.mixer.Sound(path.join(base_snds_folder, "gun_powerdown.ogg"))
 pg.mixer.music.load(path.join(base_snds_folder, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
 pg.mixer.music.set_volume(0.4)
 pg.mixer.music.play(loops=-1)
@@ -381,10 +423,23 @@ for i in range(8):
 # game update Variables
 ########################################
 playing = True
-score = 0
+game_over = True
+
 ########################################
 ################################################################
 while playing:
+    if game_over:
+        show_go_screen()
+        game_over = False
+        all_sprites = pg.sprite.Group()
+        mobs = pg.sprite.Group()
+        bullets = pg.sprite.Group()
+        powerups = pg.sprite.Group()
+        player = Player()
+        all_sprites.add(player)
+        for i in range(8):
+            npc.spawn()
+        score = 0
     # timing
     ##################################################
     clock.tick(FPS)
@@ -407,6 +462,10 @@ while playing:
     ##################################################
     # Updates
     ##################################################
+    # if the player died and the explosion has finished playing
+    if player.lives == 0 and not death_expl.alive():
+        game_over = True
+
     all_sprites.update()
 
 
@@ -425,8 +484,6 @@ while playing:
             player.hide()
             player.shield = 100
             player.lives -= 1
-    if player.lives <= 0 and not death_expl.alive():
-        playing = False
 
     # check to see if npc hit npc
     hits = pg.sprite.groupcollide(npc_group, npc_group, False, False, pg.sprite.collide_circle)
@@ -452,9 +509,10 @@ while playing:
             player.shield += r.randrange(10,30)
             if player.shield >= 100:
                 player.shield = 100
-        if hit.type =='gun':
-            #player.powerup()
-            pass
+            shield_snd.play()
+        if hit.type == 'gun':
+            player.powerup()
+
 
     ##################################################
 
